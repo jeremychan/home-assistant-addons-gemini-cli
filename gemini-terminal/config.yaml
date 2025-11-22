@@ -1,0 +1,36 @@
+# Add-on configuration
+name: "Gemini Terminal"
+version: "0.1.0"
+slug: "gemini_terminal"
+description: "A web-based terminal with Gemini CLI"
+arch:
+  - "aarch64"
+  - "amd64"
+  - "armv7"
+init: false
+map:
+  - "config:rw"
+options:
+  auth:
+    method: "oauth" # "oauth", "gemini_api_key", "vertex_ai_service_account", "vertex_ai_api_key"
+    gemini_api_key: ""
+    vertex_ai_project_id: ""
+    vertex_ai_location: ""
+    vertex_ai_api_key: ""
+    vertex_ai_service_account_json: ""
+schema:
+  auth:
+    method: list(oauth|gemini_api_key|vertex_ai_service_account|vertex_ai_api_key)
+    gemini_api_key: str?
+    vertex_ai_project_id: str?
+    vertex_ai_location: str?
+    vertex_ai_api_key: str?
+    vertex_ai_service_account_json: str?
+ingress: true
+panel_icon: "mdi:console"
+panel_title: "Gemini"
+ports:
+  7681/tcp: 7681
+ports_description:
+  7681/tcp: "Web terminal"
+webui: "http://[HOST]:[PORT:7681]"
