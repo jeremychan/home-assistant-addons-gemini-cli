@@ -10,22 +10,9 @@ arch:
 init: false
 map:
   - "config:rw"
-options:
-  auth:
-    method: "oauth" # "oauth", "gemini_api_key", "vertex_ai_service_account", "vertex_ai_api_key"
-    gemini_api_key: ""
-    vertex_ai_project_id: ""
-    vertex_ai_location: ""
-    vertex_ai_api_key: ""
-    vertex_ai_service_account_json: ""
-schema:
-  auth:
-    method: list(oauth|gemini_api_key|vertex_ai_service_account|vertex_ai_api_key)
-    gemini_api_key: str?
-    vertex_ai_project_id: str?
-    vertex_ai_location: str?
-    vertex_ai_api_key: str?
-    vertex_ai_service_account_json: str?
+# No options are needed as we are using OAuth by default.
+options: {}
+schema: {}
 ingress: true
 panel_icon: "mdi:console"
 panel_title: "Gemini"
