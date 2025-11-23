@@ -20,10 +20,5 @@ schema:
 ingress: true
 panel_icon: "mdi:console"
 panel_title: "Gemini"
-ports:
-  7681/tcp: 7681
-ports_description:
-  7681/tcp: "Web terminal"
-webui: "http://[HOST]:[PORT:7681]"
 # The working directory is set to the mounted HA config so that gemini picks it up as context
 working_dir: /config
