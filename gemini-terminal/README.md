@@ -40,7 +40,7 @@ Controls whether the Gemini AI can modify files in your Home Assistant configura
 2. Go to the add-on's Configuration tab
 3. Set `allow_write_access: true`
 4. Click Save and Restart
-5. Check logs for: `[WARNING] WRITE ACCESS ENABLED!`
+5. Confirm in logs for: `[WARNING] WRITE ACCESS ENABLED!`
 
 ## Usage
 **Authentication:** This add-on uses OAuth to connect to your personal Google account. The authentication tokens are stored securely in the Home Assistant host under `/config/gemini_auth/` and are persisted across restarts.

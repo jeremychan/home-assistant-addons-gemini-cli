@@ -34,7 +34,7 @@ The add-on works out of the box with safe defaults. The only configuration optio
 Controls whether the Gemini AI can modify files in your Home Assistant configuration directory.
 
 - **`false` (default)**: Read-only mode - AI can read files but cannot modify them
-- **`true`): Write mode - AI can modify files after showing you the changes and getting confirmation
+- **`true`**: Write mode - AI can modify files after showing you the changes and getting confirmation
 
 **To enable write access:**
 
@@ -42,7 +42,7 @@ Controls whether the Gemini AI can modify files in your Home Assistant configura
 2. Go to the add-on's Configuration tab
 3. Set `allow_write_access: true`
 4. Click Save and Restart
-5. Check logs for: `[WARNING] WRITE ACCESS ENABLED!`
+5. Confirm in logs for: `[WARNING] WRITE ACCESS ENABLED!`
 
 ## Usage
 
