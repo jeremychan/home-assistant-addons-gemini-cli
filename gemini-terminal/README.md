@@ -46,10 +46,7 @@ Controls whether the Gemini AI can modify files in your Home Assistant configura
 **Authentication:** This add-on uses OAuth to connect to your personal Google account. The authentication tokens are stored securely in the Home Assistant host under `/config/gemini_auth/` and are persisted across restarts.
 1. **First Run**: Open the web UI - the Gemini CLI will prompt you to log in
 2. **Authentication**: Select "Login with Google" (option 1) and follow the OAuth flow
-3. **Start Chatting**: Once authenticated, ask questions about your Home Assistant configuration
-
-**Example questions:**
-- "What integrations do I have configured?"
-- "Show me my automation.yaml file"
+3. **Start Chatting**: Once authenticated, ask questions
 - "Explain what this automation does"
-
+- "My hallway lights are not coming on when I come home, why?"
+- "Make an automation to turn the christmas tree on at 5pm"
