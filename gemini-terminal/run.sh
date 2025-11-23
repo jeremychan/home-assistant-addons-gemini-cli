@@ -122,4 +122,4 @@ exec ttyd \
     --port 7682 \
     --interface 0.0.0.0 \
     --writable \
-    bash -c "$LAUNCH_CMD; exec bash"
+    bash -c "cd /config && $LAUNCH_CMD; exec bash"
