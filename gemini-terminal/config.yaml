@@ -2,17 +2,20 @@
 name: "Gemini Terminal"
 version: "0.1.0"
 slug: "gemini_terminal"
-description: "A web-based terminal with Gemini CLI"
+description: "A web-based terminal with Gemini CLI to interact with your Home Assistant configuration."
 arch:
   - "aarch64"
   - "amd64"
   - "armv7"
 init: false
+# Request access to the user's main Home Assistant configuration directory.
+# The add-on will manage read-only/read-write access internally for safety.
 map:
   - "config:rw"
-# No options are needed as we are using OAuth by default.
-options: {}
-schema: {}
+options:
+  allow_write_access: false
+schema:
+  allow_write_access: "bool"
 ingress: true
 panel_icon: "mdi:console"
 panel_title: "Gemini"
@@ -21,3 +24,5 @@ ports:
 ports_description:
   7681/tcp: "Web terminal"
 webui: "http://[HOST]:[PORT:7681]"
+# The working directory is set to the mounted HA config so that gemini picks it up as context
+working_dir: /ha-config
