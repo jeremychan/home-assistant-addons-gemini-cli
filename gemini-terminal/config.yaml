@@ -25,4 +25,4 @@ ports_description:
   7681/tcp: "Web terminal"
 webui: "http://[HOST]:[PORT:7681]"
 # The working directory is set to the mounted HA config so that gemini picks it up as context
-working_dir: /ha-config
+working_dir: /config
