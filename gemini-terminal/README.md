@@ -4,6 +4,10 @@ This add-on provides a web-based terminal with the Google Gemini CLI pre-install
 
 **Note:** This add-on is **not** an official Google product.
 
+The add‑on supports two usage modes:
+1. **Help mode (default)** – you can ask Gemini for information, explanations, or guidance about your Home Assistant configuration.
+2. **Agentic editing mode** – when `allow_write_access` is set to `true`, Gemini can suggest and apply changes to your Home Assistant settings and automations, always showing the proposed edits for your confirmation.
+
 ![Gemini Terminal Screenshot](screenshot.png)
 
 ## Features
