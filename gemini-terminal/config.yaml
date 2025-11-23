@@ -18,14 +18,14 @@ options:
 schema:
   allow_write_access: "bool"
 ingress: true
-ingress_port: 7681
+ingress_port: 7682
 panel_icon: "mdi:console"
 panel_title: "Gemini"
 # Port configuration (optional, ingress is primary access method)
 ports:
-  7681/tcp: 7681
+  7682/tcp: 7682
 ports_description:
-  7681/tcp: "Web terminal (not required for ingress)"
-webui: "http://[HOST]:[PORT:7681]/"
+  7682/tcp: "Web terminal (not required for ingress)"
+webui: "http://[HOST]:[PORT:7682]/"
 # The working directory is set to the mounted HA config so that gemini picks it up as context
 working_dir: /config

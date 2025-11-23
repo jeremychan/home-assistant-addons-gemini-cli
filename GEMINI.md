@@ -10,9 +10,9 @@ A development environment using Nix is not yet set up for this project. The foll
 
 ### Core Development Commands
 - `build-addon` - Build the Gemini Terminal add-on with Podman
-- `run-addon` - Run add-on locally on port 7681 with volume mapping
+- `run-addon` - Run add-on locally on port 7682 with volume mapping
 - `lint-dockerfile` - Lint Dockerfile using hadolint
-- `test-endpoint` - Test web endpoint availability (curl localhost:7681)
+- `test-endpoint` - Test web endpoint availability (curl localhost:7682)
 
 ### Manual Commands (without aliases)
 ```bash
@@ -20,13 +20,13 @@ A development environment using Nix is not yet set up for this project. The foll
 podman build --build-arg BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.19 -t local/gemini-terminal ./gemini-terminal
 
 # Run locally
-podman run -p 7681:7681 -v $(pwd)/config:/config local/gemini-terminal
+podman run -p 7682:7682 -v $(pwd)/config:/config local/gemini-terminal
 
 # Lint
 hadolint ./gemini-terminal/Dockerfile
 
 # Test endpoint
-curl -X GET http://localhost:7681/
+curl -X GET http://localhost:7682/
 ```
 
 ## Architecture
@@ -63,9 +63,9 @@ This project will be implemented in three main phases.
 **Testing Steps:**
 1.  **Local Build & Run:**
     *   Build the Docker image (`docker build .`) and run it locally, mapping a local test directory to `/config`.
-    *   `docker run -p 7681:7681 -v ./test-config:/config local/gemini-terminal`
+    *   `docker run -p 7682:7682 -v ./test-config:/config local/gemini-terminal`
 2.  **Initial OAuth Login:**
-    *   Access the web terminal at `http://localhost:7681`. It should present the Gemini CLI interface.
+    *   Access the web terminal at `http://localhost:7682`. It should present the Gemini CLI interface.
     *   Select the "Login with Google" option and complete the authentication in your browser.
     *   **Verification:** The CLI should become authenticated. Check your local `./test-config/gemini_auth` directory. The files `oauth_creds.json` and `google_accounts.json` should now exist.
 3.  **Persistence Test:**

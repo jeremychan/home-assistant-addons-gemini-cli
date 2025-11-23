@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed 502 Bad Gateway error with ingress by updating ttyd configuration
 - Changed ttyd interface from localhost to 0.0.0.0 (based on Claude Terminal reference)
 - Added ports section back to config.yaml for compatibility
-- Kept ingress_port: 7681 for proper ingress routing
+- Kept ingress_port: 7682 for proper ingress routing
 
 ### Changed
 - Simplified README documentation - removed verbose sections
@@ -21,12 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 - Based ttyd configuration on working Claude Terminal implementation
-- Clarified that port 7681 is internal to container (no conflicts with other add-ons)
+- Clarified that port 7682 is internal to container (no conflicts with other add-ons)
 
 ## [1.0.1] - 2025-11-23
 
 ### Fixed
-- Removed port mapping from config.yaml to fix "Port 7681 already in use" error
+- Removed port mapping from config.yaml to fix "Port 7682 already in use" error
 - Add-on now uses ingress exclusively for web access (no port conflicts)
 
 ### Changed

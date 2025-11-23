@@ -45,20 +45,19 @@ ln -sfn "${GEMINI_AUTH_DIR}" "${HOME}/.gemini"
 bashio::log.info "OAuth credentials will be persisted in ${GEMINI_AUTH_DIR} linked to ${HOME}/.gemini."
 
 # --- Configure Safety & System Prompt ---
-# Determine write access mode
-# Priority: 1) /data/options.json (for local testing), 2) bashio config (for HA)
-WRITE_ACCESS=false
-
+# Check if allow_write_access is true.
+# We check bashio first (standard HA), but fallback to checking options.json directly
+# to support local development where the Supervisor API is not available.
 if [ -f /data/options.json ]; then
-    # Local testing mode - read from options.json
-    WRITE_ACCESS=$(jq -r '.allow_write_access // false' /data/options.json)
-    bashio::log.info "Local mode: allow_write_access=${WRITE_ACCESS}"
-elif bashio::config.true 'allow_write_access'; then
-    # Home Assistant mode - use supervisor API
-    WRITE_ACCESS=true
+    bashio::log.info "DEBUG: /data/options.json found"
+    cat /data/options.json
+    bashio::log.info "DEBUG: jq output: $(jq -r '.allow_write_access' /data/options.json)"
+else
+    bashio::log.info "DEBUG: /data/options.json NOT found"
 fi
 
-if [ "$WRITE_ACCESS" = "true" ]; then
+if bashio::config.true 'allow_write_access' || \
+   ( [ -f /data/options.json ] && [ "$(jq -r '.allow_write_access' /data/options.json)" == "true" ] ); then
     bashio::log.warning "WRITE ACCESS ENABLED! The AI has permission to modify files."
     bashio::log.warning "Ensure you have backups of your configuration."
     cp /GEMINI.readwrite.md /config/GEMINI.md
@@ -69,10 +68,6 @@ fi
 
 # --- Start ttyd ---
 bashio::log.info "Starting ttyd web terminal with Gemini CLI..."
-# ttyd configuration for Home Assistant ingress
-# Based on Claude Terminal reference implementation
-exec ttyd \
-    --port 7682 \
-    --interface 0.0.0.0 \
-    --writable \
-    gemini
+# ttyd will launch the gemini command, which will prompt for login on the first run.
+# On subsequent runs, it will use the credentials stored in the linked directory.
+/usr/bin/ttyd --writable -p 7682 gemini
