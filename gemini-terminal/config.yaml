@@ -1,6 +1,6 @@
 # Add-on configuration
 name: "Gemini Terminal"
-version: "1.0.2"
+version: "1.0.4"
 slug: "gemini_terminal"
 description: "Web-based terminal with Google Gemini AI CLI. Interact with your Home Assistant configuration using natural language, with built-in safety controls."
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
@@ -19,7 +19,7 @@ schema:
   allow_write_access: "bool"
 ingress: true
 ingress_port: 7682
-panel_icon: "mdi:console"
+panel_icon: "mdi:console-line"
 panel_title: "Gemini"
 # Port configuration (optional, ingress is primary access method)
 ports:
