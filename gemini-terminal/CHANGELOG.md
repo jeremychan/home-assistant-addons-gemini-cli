@@ -5,6 +5,26 @@ All notable changes to the Gemini Terminal add-on will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-11-23
+
+### Fixed
+- Removed port mapping from config.yaml to fix "Port 7681 already in use" error
+- Add-on now uses ingress exclusively for web access (no port conflicts)
+
+### Changed
+- Enhanced README with comprehensive `allow_write_access` documentation
+- Added detailed example interactions for read-only and write modes
+- Added troubleshooting section to README
+- Improved root README with "Add Repository" button for easy installation
+- Converted SVG icon to PNG format (icon.png 256x256, logo.png 512x512)
+- Clarified that this is an add-on, not a HACS integration
+
+### Documentation
+- Added step-by-step guide for enabling write access
+- Added safety best practices section
+- Added "What the AI Can Access" section
+- Added example conversations showing AI behavior in both modes
+
 ## [1.0.0] - 2025-11-23
 
 ### Added
