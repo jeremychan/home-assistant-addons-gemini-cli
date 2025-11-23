@@ -18,6 +18,7 @@ options:
 schema:
   allow_write_access: "bool"
 ingress: true
+ingress_port: 7681
 panel_icon: "mdi:console"
 panel_title: "Gemini"
 # The working directory is set to the mounted HA config so that gemini picks it up as context
