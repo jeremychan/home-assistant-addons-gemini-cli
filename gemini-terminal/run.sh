@@ -67,12 +67,59 @@ else
     cp /GEMINI.readonly.md /config/GEMINI.md
 fi
 
+# --- Helper Functions ---
+# Create a wrapper script for gemini-auth
+cat > /usr/local/bin/gemini-auth <<EOF
+#!/bin/bash
+echo "Checking Gemini authentication status..."
+if [ -f "\$HOME/.gemini/oauth_creds.json" ]; then
+    echo "✅ Authenticated (Credentials found)"
+    ls -l "\$HOME/.gemini/oauth_creds.json"
+else
+    echo "❌ Not authenticated"
+fi
+EOF
+chmod +x /usr/local/bin/gemini-auth
+
+# Create a wrapper script for gemini-logout
+cat > /usr/local/bin/gemini-logout <<EOF
+#!/bin/bash
+echo "Logging out of Gemini..."
+rm -f "\$HOME/.gemini/oauth_creds.json"
+rm -f "\$HOME/.gemini/google_accounts.json"
+echo "✅ Credentials cleared. Run 'gemini' to login again."
+EOF
+chmod +x /usr/local/bin/gemini-logout
+
 # --- Start ttyd ---
-bashio::log.info "Starting ttyd web terminal with Gemini CLI..."
+bashio::log.info "Starting ttyd web terminal..."
+
+# Determine launch command
+AUTO_LAUNCH=true
+
+if [ -f /data/options.json ]; then
+    # Local testing mode - read from options.json
+    AUTO_LAUNCH=$(jq -r '.auto_launch // true' /data/options.json)
+elif bashio::config.exists 'auto_launch'; then
+    # Home Assistant mode
+    AUTO_LAUNCH=$(bashio::config 'auto_launch')
+fi
+
+LAUNCH_CMD=""
+
+if [ "$AUTO_LAUNCH" = "true" ]; then
+    bashio::log.info "Auto-launch enabled: Gemini CLI will start automatically."
+    # We use a small delay to ensure the terminal is ready
+    LAUNCH_CMD="echo 'Welcome to Gemini Terminal!' && echo 'Starting Gemini CLI...' && sleep 1 && gemini"
+else
+    bashio::log.info "Auto-launch disabled: Starting in Bash shell."
+    LAUNCH_CMD="echo 'Welcome to Gemini Terminal!' && echo 'Type \"gemini\" to start the AI assistant.'"
+fi
+
 # ttyd configuration for Home Assistant ingress
-# Based on Claude Terminal reference implementation
+# We run bash, which then executes the launch command
 exec ttyd \
     --port 7682 \
     --interface 0.0.0.0 \
     --writable \
-    gemini
+    bash -c "$LAUNCH_CMD; exec bash"

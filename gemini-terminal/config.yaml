@@ -1,6 +1,6 @@
 # Add-on configuration
 name: "Gemini Terminal"
-version: "1.0.5"
+version: "1.0.6"
 slug: "gemini_terminal"
 description: "Web-based terminal with Google Gemini AI CLI. Interact with your Home Assistant configuration using natural language, with built-in safety controls."
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
@@ -13,10 +13,19 @@ init: false
 # The add-on will manage read-only/read-write access internally for safety.
 map:
   - "config:rw"
+# Add-on configuration options
 options:
   allow_write_access: false
+  auto_launch: true
 schema:
-  allow_write_access: "bool"
+  allow_write_access: bool
+  auto_launch: bool
+
+# API access for Home Assistant integration
+hassio_api: true
+homeassistant_api: true
+auth_api: true
+
 ingress: true
 ingress_port: 7682
 panel_icon: "mdi:console-line"
