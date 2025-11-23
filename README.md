@@ -25,9 +25,41 @@ The add‑on supports two usage modes:
 3.  Start the add-on.
 4.  Click "Open Web UI" to access the terminal.
 
+## Authentication Options
+
+The add-on supports three authentication methods for accessing Google's Gemini AI:
+
+### 1. OAuth (Login with Google) - **Default**
+✨ **Best for**: Individual developers and anyone with a Gemini Code Assist License
+
+**Setup**: No configuration needed - just follow the OAuth flow when you first open the terminal.
+
+### 2. Gemini API Key
+✨ **Best for**: Developers who need specific model control or paid tier access
+
+**Setup**:
+1. Get your API key from [Google AI Studio](https://aistudio.google.com/apikey)
+2. In the add-on configuration, set:
+   - `auth_method: api_key`
+   - `gemini_api_key: YOUR_API_KEY`
+3. Restart the add-on
+
+### 3. Vertex AI
+✨ **Best for**: Enterprise teams and production workloads
+
+**Setup**:
+1. Get your API key from [Google Cloud Console](https://console.cloud.google.com/)
+2. In the add-on configuration, set:
+   - `auth_method: vertex_ai`
+   - `vertex_ai_api_key: YOUR_API_KEY`
+   - `google_cloud_project: YOUR_PROJECT_ID` (optional)
+3. Restart the add-on
+
+> **Security Note**: API keys are stored in the add-on configuration. Ensure your Home Assistant instance is properly secured.
+
 ## Configuration
 
-The add-on works out of the box with safe defaults. The only configuration option is:
+The add-on works out of the box with safe defaults.
 
 ### `allow_write_access` (Default: `false`)
 
@@ -46,10 +78,17 @@ Controls whether the Gemini AI can modify files in your Home Assistant configura
 
 ## Usage
 
-**Authentication:** This add-on uses OAuth to connect to your personal Google account. The authentication tokens are stored securely in the Home Assistant host under `/config/gemini_auth/` and are persisted across restarts.
+**Authentication**: By default, this add-on uses OAuth to connect to your personal Google account. You can also configure it to use a Gemini API Key or Vertex AI (see Authentication Options above).
+
+### OAuth Method (Default)
+The authentication tokens are stored securely in the Home Assistant host under `/config/gemini_auth/` and are persisted across restarts.
+
 1. **First Run**: Open the web UI - the Gemini CLI will prompt you to log in
 2. **Authentication**: Select "Login with Google" (option 1) and follow the OAuth flow
 3. **Start Chatting**: Once authenticated, ask questions
-- "Explain what this automation does"
-- "My hallway lights are not coming on when I come home, why?"
-- "Make an automation to turn the christmas tree on at 5pm"
+   - "Explain what this automation does"
+   - "My hallway lights are not coming on when I come home, why?"
+   - "Make an automation to turn the christmas tree on at 5pm"
+
+### API Key or Vertex AI Method
+If you've configured an API key, the CLI will automatically authenticate using the provided credentials - no login flow needed.

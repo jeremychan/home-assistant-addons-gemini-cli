@@ -1,6 +1,6 @@
 # Add-on configuration
 name: "Gemini Terminal"
-version: "1.0.7"
+version: "1.1.0"
 slug: "gemini_terminal"
 description: "Web-based terminal with Google Gemini AI CLI. Interact with your Home Assistant configuration using natural language, with built-in safety controls."
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
@@ -17,9 +17,17 @@ map:
 options:
   allow_write_access: false
   auto_launch: true
+  auth_method: oauth
+  gemini_api_key: ""
+  vertex_ai_api_key: ""
+  google_cloud_project: ""
 schema:
   allow_write_access: bool
   auto_launch: bool
+  auth_method: list(oauth|api_key|vertex_ai)
+  gemini_api_key: str?
+  vertex_ai_api_key: str?
+  google_cloud_project: str?
 
 # API access for Home Assistant integration
 hassio_api: true

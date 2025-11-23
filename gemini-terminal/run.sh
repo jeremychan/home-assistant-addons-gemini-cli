@@ -44,6 +44,67 @@ bashio::log.info "Configuring persistent storage for OAuth credentials..."
 ln -sfn "${GEMINI_AUTH_DIR}" "${HOME}/.gemini"
 bashio::log.info "OAuth credentials will be persisted in ${GEMINI_AUTH_DIR} linked to ${HOME}/.gemini."
 
+# --- Configure Authentication Method ---
+# Determine which authentication method to use
+AUTH_METHOD="oauth"
+
+if [ -f /data/options.json ]; then
+    # Local testing mode - read from options.json
+    AUTH_METHOD=$(jq -r '.auth_method // "oauth"' /data/options.json)
+elif bashio::config.exists 'auth_method'; then
+    # Home Assistant mode - use supervisor API
+    AUTH_METHOD=$(bashio::config 'auth_method')
+fi
+
+bashio::log.info "Authentication method: ${AUTH_METHOD}"
+
+case "${AUTH_METHOD}" in
+    "api_key")
+        # Gemini API Key authentication
+        if [ -f /data/options.json ]; then
+            API_KEY=$(jq -r '.gemini_api_key // ""' /data/options.json)
+        else
+            API_KEY=$(bashio::config 'gemini_api_key')
+        fi
+        
+        if [ -n "${API_KEY}" ]; then
+            export GEMINI_API_KEY="${API_KEY}"
+            bashio::log.info "Using Gemini API Key authentication"
+        else
+            bashio::log.error "API Key authentication selected but no gemini_api_key provided!"
+        fi
+        ;;
+    
+    "vertex_ai")
+        # Vertex AI authentication
+        if [ -f /data/options.json ]; then
+            GOOGLE_KEY=$(jq -r '.vertex_ai_api_key // ""' /data/options.json)
+            GCP_PROJECT=$(jq -r '.google_cloud_project // ""' /data/options.json)
+        else
+            GOOGLE_KEY=$(bashio::config 'vertex_ai_api_key')
+            GCP_PROJECT=$(bashio::config 'google_cloud_project')
+        fi
+        
+        if [ -n "${GOOGLE_KEY}" ]; then
+            export GOOGLE_API_KEY="${GOOGLE_KEY}"
+            export GOOGLE_GENAI_USE_VERTEXAI=true
+            bashio::log.info "Using Vertex AI authentication"
+            
+            if [ -n "${GCP_PROJECT}" ]; then
+                export GOOGLE_CLOUD_PROJECT="${GCP_PROJECT}"
+                bashio::log.info "Google Cloud Project: ${GCP_PROJECT}"
+            fi
+        else
+            bashio::log.error "Vertex AI authentication selected but no vertex_ai_api_key provided!"
+        fi
+        ;;
+    
+    "oauth"|*)
+        # OAuth authentication (default)
+        bashio::log.info "Using OAuth authentication (Login with Google)"
+        ;;
+esac
+
 # --- Configure Safety & System Prompt ---
 # Determine write access mode
 # Priority: 1) /data/options.json (for local testing), 2) bashio config (for HA)
@@ -67,13 +128,16 @@ else
     cp /GEMINI.readonly.md /config/GEMINI.md
 fi
 
-# --- Helper Functions ---
 # Create a wrapper script for gemini-auth
 cat > /usr/local/bin/gemini-auth <<EOF
 #!/bin/bash
 echo "Checking Gemini authentication status..."
-if [ -f "\$HOME/.gemini/oauth_creds.json" ]; then
-    echo "✅ Authenticated (Credentials found)"
+if [ -n "\$GEMINI_API_KEY" ]; then
+    echo "✅ Authenticated (API Key)"
+elif [ -n "\$GOOGLE_API_KEY" ] && [ "\$GOOGLE_GENAI_USE_VERTEXAI" = "true" ]; then
+    echo "✅ Authenticated (Vertex AI)"
+elif [ -f "\$HOME/.gemini/oauth_creds.json" ]; then
+    echo "✅ Authenticated (OAuth - Credentials found)"
     ls -l "\$HOME/.gemini/oauth_creds.json"
 else
     echo "❌ Not authenticated"
