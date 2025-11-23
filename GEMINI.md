@@ -100,7 +100,7 @@ This project will be implemented in three main phases.
 
 ---
 
-### Phase 3: Advanced Integration and Safety
+### Phase 3: Advanced Integration and Safety (Status: Complete)
 
 **Goal:** Deeply integrate the Gemini CLI with the user's Home Assistant environment by providing configuration as context, and implement critical safety features to prevent accidental damage.
 
@@ -135,4 +135,10 @@ This project will be implemented in three main phases.
 
 3.  **Context Awareness Test:**
     *   In either mode, ask the AI questions about your Home Assistant setup (e.g., "How many automations do I have?" or "What integrations are defined in my configuration.yaml?").
-    *   **Verification:** The AI should be able to answer these questions by referencing the files within `/config`, demonstrating that it is using the environment as context.
+    *   **Verification**: The AI should be able to answer these questions by referencing the files within `/config`, demonstrating that it is using the environment as context.
+
+**Implementation Notes:**
+
+- **Local Testing Support**: The `run.sh` script prioritizes reading from `/data/options.json` for local testing, then falls back to the Supervisor API (`bashio::config.true`) for production Home Assistant environments. This ensures the `allow_write_access` option works in both contexts.
+- **Dynamic System Prompts**: Two system prompt files (`GEMINI.readonly.md` and `GEMINI.readwrite.md`) are copied into the container and dynamically selected based on the `allow_write_access` setting. The selected prompt is copied to `/config/GEMINI.md` at startup.
+- **Safety by Default**: The add-on defaults to read-only mode (`allow_write_access: false`) to prevent accidental modifications to the user's Home Assistant configuration.

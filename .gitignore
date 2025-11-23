@@ -1,0 +1,58 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.pnpm-store/
+
+# IDEs and other tools
+.vscode/
+.idea/
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables
+.env
+.env.development
+.env.test
+.env.production
+.env.local
+
+# Build artifacts
+build/
+dist/
+tmp/
+*.log
+
+# Home Assistant Add-on specific
+.gitattributes
+.github/
+.npmrc
+.nvmrc
+.prettierignore
+.prettierrc.json
+.yamllint.yml
+CONTRIBUTING.md
+esbuild.config.js
+eslint.config.js
+LICENSE
+Makefile
+package-lock.json
+package.json
+ROADMAP.md
+SECURITY.md
+tsconfig.json
+.allstar
+.gcp
+.gemini
+.git
+.husky
+.vscode
+.lycheeignore
+schemas
+scripts
+third_party
+
+test-config

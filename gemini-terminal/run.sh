@@ -44,6 +44,29 @@ bashio::log.info "Configuring persistent storage for OAuth credentials..."
 ln -sfn "${GEMINI_AUTH_DIR}" "${HOME}/.gemini"
 bashio::log.info "OAuth credentials will be persisted in ${GEMINI_AUTH_DIR} linked to ${HOME}/.gemini."
 
+# --- Configure Safety & System Prompt ---
+# Determine write access mode
+# Priority: 1) /data/options.json (for local testing), 2) bashio config (for HA)
+WRITE_ACCESS=false
+
+if [ -f /data/options.json ]; then
+    # Local testing mode - read from options.json
+    WRITE_ACCESS=$(jq -r '.allow_write_access // false' /data/options.json)
+    bashio::log.info "Local mode: allow_write_access=${WRITE_ACCESS}"
+elif bashio::config.true 'allow_write_access'; then
+    # Home Assistant mode - use supervisor API
+    WRITE_ACCESS=true
+fi
+
+if [ "$WRITE_ACCESS" = "true" ]; then
+    bashio::log.warning "WRITE ACCESS ENABLED! The AI has permission to modify files."
+    bashio::log.warning "Ensure you have backups of your configuration."
+    cp /GEMINI.readwrite.md /config/GEMINI.md
+else
+    bashio::log.info "Read-only mode enabled (default). The AI cannot modify files."
+    cp /GEMINI.readonly.md /config/GEMINI.md
+fi
+
 # --- Start ttyd ---
 bashio::log.info "Starting ttyd web terminal with Gemini CLI..."
 # ttyd will launch the gemini command, which will prompt for login on the first run.

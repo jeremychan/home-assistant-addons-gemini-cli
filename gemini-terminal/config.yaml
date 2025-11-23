@@ -1,8 +1,9 @@
 # Add-on configuration
 name: "Gemini Terminal"
-version: "0.1.0"
+version: "1.0.0"
 slug: "gemini_terminal"
-description: "A web-based terminal with Gemini CLI to interact with your Home Assistant configuration."
+description: "Web-based terminal with Google Gemini AI CLI. Interact with your Home Assistant configuration using natural language, with built-in safety controls."
+url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
 arch:
   - "aarch64"
   - "amd64"
