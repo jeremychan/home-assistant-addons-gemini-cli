@@ -1,6 +1,6 @@
 # Add-on configuration
 name: "Gemini Terminal"
-version: "1.0.1"
+version: "1.0.2"
 slug: "gemini_terminal"
 description: "Web-based terminal with Google Gemini AI CLI. Interact with your Home Assistant configuration using natural language, with built-in safety controls."
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
@@ -21,5 +21,11 @@ ingress: true
 ingress_port: 7681
 panel_icon: "mdi:console"
 panel_title: "Gemini"
+# Port configuration (optional, ingress is primary access method)
+ports:
+  7681/tcp: 7681
+ports_description:
+  7681/tcp: "Web terminal (not required for ingress)"
+webui: "http://[HOST]:[PORT:7681]/"
 # The working directory is set to the mounted HA config so that gemini picks it up as context
 working_dir: /config

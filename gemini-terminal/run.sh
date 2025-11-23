@@ -69,10 +69,10 @@ fi
 
 # --- Start ttyd ---
 bashio::log.info "Starting ttyd web terminal with Gemini CLI..."
-# ttyd will launch the gemini command, which will prompt for login on the first run.
-# On subsequent runs, it will use the credentials stored in the linked directory.
-# For Home Assistant ingress, we need to:
-# - Bind to 0.0.0.0:7681 (already default)
-# - Enable writable mode
-# - Set interface to allow ingress proxy connections
-/usr/bin/ttyd --writable --interface 0.0.0.0 --port 7681 gemini
+# ttyd configuration for Home Assistant ingress
+# Based on Claude Terminal reference implementation
+exec ttyd \
+    --port 7681 \
+    --interface 0.0.0.0 \
+    --writable \
+    gemini

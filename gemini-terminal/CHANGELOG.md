@@ -5,6 +5,24 @@ All notable changes to the Gemini Terminal add-on will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-11-23
+
+### Fixed
+- Fixed 502 Bad Gateway error with ingress by updating ttyd configuration
+- Changed ttyd interface from localhost to 0.0.0.0 (based on Claude Terminal reference)
+- Added ports section back to config.yaml for compatibility
+- Kept ingress_port: 7681 for proper ingress routing
+
+### Changed
+- Simplified README documentation - removed verbose sections
+- Consolidated configuration instructions
+- Made "enable write access" steps more concise
+- Removed redundant safety, troubleshooting, and support sections
+
+### Documentation
+- Based ttyd configuration on working Claude Terminal implementation
+- Clarified that port 7681 is internal to container (no conflicts with other add-ons)
+
 ## [1.0.1] - 2025-11-23
 
 ### Fixed
