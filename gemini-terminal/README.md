@@ -4,7 +4,7 @@ This add-on provides a web-based terminal with the Google Gemini CLI pre-install
 
 **Note:** This add-on is **not** an official Google product.
 
-![Gemini Terminal Screenshot](file:///Volumes/External/dev/home-assistant-addons-gemini-cli/gemini-terminal/screenshot.png)
+![Gemini Terminal Screenshot](screenshot.png)
 
 ## Features
 
