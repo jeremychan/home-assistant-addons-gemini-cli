@@ -1,13 +1,13 @@
-# Antigravity Terminal Add-on
+# Antigravity/Gemini Terminal Add-on
 
-This add-on provides a Home Assistant Ingress terminal with Google's [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli).
+This add-on provides a Home Assistant Ingress terminal with Google's [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli). It retains the Gemini Terminal name so existing users can find the migrated add-on.
 
 This community add-on is not an official Google product.
 
 ## Installation
 
 1. Add this repository to the Home Assistant Add-on Store.
-2. Install **Antigravity Terminal**.
+2. Install **Antigravity/Gemini Terminal**.
 3. Start the add-on.
 4. Select **Open Web UI**.
 5. Follow the Google sign-in URL shown by Antigravity.

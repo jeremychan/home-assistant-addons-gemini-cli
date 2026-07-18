@@ -1,8 +1,8 @@
 # Add-on configuration
-name: "Antigravity Terminal"
-version: "2.0.0"
+name: "Antigravity/Gemini Terminal"
+version: "2.0.1"
 slug: "gemini_terminal"
-description: "Web-based terminal with Google's Antigravity CLI and ESPHome tooling for working with your Home Assistant configuration."
+description: "Antigravity CLI web terminal, formerly Gemini Terminal, with ESPHome tooling for Home Assistant."
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
 arch:
   - "aarch64"
@@ -28,7 +28,7 @@ auth_api: true
 ingress: true
 ingress_port: 7682
 panel_icon: "mdi:console-line"
-panel_title: "Antigravity"
+panel_title: "Antigravity/Gemini"
 # Port configuration (optional, ingress is primary access method)
 ports:
   7682/tcp: 7682

@@ -1,8 +1,12 @@
-# Antigravity CLI Add-on
+# Antigravity/Gemini Terminal Add-on
 
 [![Add Repository](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fjeremychan%2Fhome-assistant-addons-gemini-cli)
 
-Run Google's [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli) in a web terminal from the Home Assistant dashboard. The add-on opens in `/config`, includes ESPHome and common command-line tools, and keeps Antigravity authentication and session data across restarts.
+## Important update
+
+This add-on has moved from Gemini CLI to Google's new [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli). Existing installations can upgrade in place because the original add-on slug is unchanged. The Gemini Terminal name remains in the title to help existing users find the migrated add-on.
+
+Run Google's [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli) in a web terminal from the Home Assistant dashboard. Formerly named Gemini Terminal, the add-on opens in `/config`, includes ESPHome and common command-line tools, and keeps Antigravity authentication and session data across restarts.
 
 This community add-on is not an official Google or ESPHome product.
 
@@ -19,7 +23,7 @@ This community add-on is not an official Google or ESPHome product.
 ## Installation
 
 1. Add this repository to the Home Assistant Add-on Store.
-2. Install **Antigravity Terminal**.
+2. Install **Antigravity/Gemini Terminal**.
 3. Start the add-on and select **Open Web UI**.
 4. Follow the displayed Google sign-in URL on first launch.
 

@@ -1,9 +1,14 @@
 # Changelog
 
-All notable changes to the Antigravity Terminal add-on will be documented in this file.
+All notable changes to the Antigravity/Gemini Terminal add-on will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.0.1] - 2026-07-18
+
+### Changed
+- Renamed user-facing add-on and repository metadata to Antigravity/Gemini Terminal for easier discovery
 
 ## [2.0.0] - 2026-07-18
 
