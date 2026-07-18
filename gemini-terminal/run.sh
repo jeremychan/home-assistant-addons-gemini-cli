@@ -11,6 +11,8 @@ CONFIG_DIR="/data/.config"
 CACHE_DIR="/data/.cache"
 STATE_DIR="/data/.local/state"
 ANTIGRAVITY_DIR="/data/.gemini"
+ANTIGRAVITY_SETTINGS_DIR="${ANTIGRAVITY_DIR}/antigravity-cli"
+ANTIGRAVITY_SETTINGS_FILE="${ANTIGRAVITY_SETTINGS_DIR}/settings.json"
 LEGACY_GEMINI_DIR="/config/gemini_auth"
 
 log_info() {
@@ -30,7 +32,12 @@ mkdir -p \
     "${STATE_DIR}" \
     "${ANTIGRAVITY_DIR}"
 
-chmod 700 "${DATA_HOME}" "${CONFIG_DIR}" "${CACHE_DIR}" "${STATE_DIR}" "${ANTIGRAVITY_DIR}"
+chmod 700 \
+    "${DATA_HOME}" \
+    "${CONFIG_DIR}" \
+    "${CACHE_DIR}" \
+    "${STATE_DIR}" \
+    "${ANTIGRAVITY_DIR}"
 
 export HOME="${DATA_HOME}"
 export XDG_CONFIG_HOME="${CONFIG_DIR}"
@@ -55,27 +62,67 @@ fi
 
 ln -sfn "${ANTIGRAVITY_DIR}" "${HOME}/.gemini"
 
+mkdir -p "${ANTIGRAVITY_SETTINGS_DIR}"
+chmod 700 "${ANTIGRAVITY_SETTINGS_DIR}"
+
 log_info "Environment initialized:"
 log_info "  - Home: ${HOME}"
 log_info "  - Antigravity state: ${ANTIGRAVITY_DIR}"
 log_info "  - ESPHome: $(esphome version)"
 
-# Apply a workspace instruction file matching the configured access level.
+# Apply workspace instructions and managed permission rules matching the
+# configured access level. Only rules owned by this add-on are added or removed;
+# all other user settings remain unchanged.
 WRITE_ACCESS=false
 
 if [ -f /data/options.json ]; then
     WRITE_ACCESS="$(jq -r '.allow_write_access // false' /data/options.json)"
 fi
 
+if [ ! -f "${ANTIGRAVITY_SETTINGS_FILE}" ]; then
+    echo '{}' >"${ANTIGRAVITY_SETTINGS_FILE}"
+elif ! jq empty "${ANTIGRAVITY_SETTINGS_FILE}" >/dev/null 2>&1; then
+    log_warning "Antigravity settings JSON is invalid; preserving it as settings.json.invalid."
+    cp "${ANTIGRAVITY_SETTINGS_FILE}" "${ANTIGRAVITY_SETTINGS_FILE}.invalid"
+    echo '{}' >"${ANTIGRAVITY_SETTINGS_FILE}"
+fi
+
+SETTINGS_TMP="$(mktemp "${ANTIGRAVITY_SETTINGS_DIR}/settings.json.XXXXXX")"
+
+jq \
+    --argjson read_only "$([ "${WRITE_ACCESS}" = "true" ] && echo false || echo true)" \
+    --argjson managed_allow '[
+        "command(ha-state)",
+        "command(/usr/local/bin/ha-state)"
+    ]' \
+    --argjson managed_deny '[
+        "write_file(/config)"
+    ]' \
+    '
+        .permissions = (.permissions // {})
+        | .agentMode = "default"
+        | .permissions.allow = (
+            (((.permissions.allow // []) - $managed_allow) + $managed_allow)
+            | unique
+        )
+        | .permissions.deny = (
+            (((.permissions.deny // []) - $managed_deny)
+                + (if $read_only then $managed_deny else [] end))
+            | unique
+        )
+    ' \
+    "${ANTIGRAVITY_SETTINGS_FILE}" >"${SETTINGS_TMP}"
+
+mv "${SETTINGS_TMP}" "${ANTIGRAVITY_SETTINGS_FILE}"
+chmod 600 "${ANTIGRAVITY_SETTINGS_FILE}"
+
 if [ "${WRITE_ACCESS}" = "true" ]; then
     log_warning "WRITE ACCESS ENABLED! Antigravity may modify files after review."
     log_warning "Ensure you have a current Home Assistant backup."
     cp /GEMINI.readwrite.md /config/GEMINI.md
-    AGY_MODE="default"
 else
-    log_info "Read-only help mode enabled; Antigravity will start in plan mode."
+    log_info "Read-only help mode enabled; Antigravity file writes to /config are denied."
     cp /GEMINI.readonly.md /config/GEMINI.md
-    AGY_MODE="plan"
 fi
 
 AUTO_LAUNCH=true
@@ -90,7 +137,7 @@ if [ "${AUTO_LAUNCH}" = "true" ]; then
         --port 7682 \
         --interface 0.0.0.0 \
         --writable \
-        bash -c "cd /config; echo 'Welcome to Antigravity Terminal!'; echo 'Starting Antigravity CLI...'; sleep 1; agy --mode=${AGY_MODE}; exec bash"
+        bash -c "cd /config; echo 'Welcome to Antigravity Terminal!'; echo 'Starting Antigravity CLI...'; sleep 1; agy; exec bash"
 else
     log_info "Starting the web terminal in Bash mode..."
     exec ttyd \

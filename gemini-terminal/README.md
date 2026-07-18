@@ -20,10 +20,10 @@ Google currently publishes Antigravity CLI builds for 64-bit Linux only. The add
 
 Default: `false`
 
-- `false`: Antigravity starts in plan mode and receives workspace instructions that prohibit file changes.
+- `false`: Antigravity starts in default mode with `/config` file writes denied by its permission rules.
 - `true`: Antigravity starts in its default review mode and may propose edits. Review changes carefully and keep current Home Assistant backups.
 
-The Home Assistant `/config` mount is writable inside the terminal in both modes. The setting controls Antigravity's behavior; it is not an operating-system filesystem sandbox. A user at the Bash prompt can still edit files directly.
+The Home Assistant `/config` mount is writable inside the terminal in both modes. The setting controls Antigravity's file tools; it is not an operating-system filesystem sandbox. A user at the Bash prompt can still edit files directly.
 
 ### `auto_launch`
 
@@ -39,6 +39,19 @@ Antigravity uses Google Sign-In. In a remote terminal it displays a URL that you
 Credentials, settings, projects, and conversations are stored in the add-on's persistent `/data/.gemini` directory. Upgrades from the Gemini CLI version copy existing `/config/gemini_auth` state on first start when the new state directory is empty.
 
 Use Antigravity's `/logout` command to sign out.
+
+## Home Assistant entity state
+
+Antigravity can look up current entity state through Home Assistant's API with the included `ha-state` helper. The helper performs read-only requests and is pre-approved in Antigravity, avoiding repeated terminal-command prompts for simple state questions.
+
+Examples:
+
+```bash
+ha-state light.study
+ha-state study light
+```
+
+Direct database access is not used because `home-assistant_v2.db` is internal Home Assistant storage and is not the correct interface for current state.
 
 ## ESPHome
 
@@ -57,6 +70,7 @@ Compilation downloads platform toolchains on first use and can take several minu
 ## Included tools
 
 - `agy`: Antigravity CLI
+- `ha-state`: read current Home Assistant entity state
 - `esphome`: ESPHome CLI
 - `nano`: text editor
 - `curl`: HTTP client

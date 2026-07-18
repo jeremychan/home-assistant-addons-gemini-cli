@@ -88,7 +88,9 @@ RUN python3 -m venv /opt/esphome \
     && ln -s /opt/esphome/bin/esphome /usr/local/bin/esphome \
     && esphome version
 
-# Copy run script and context files
+# Copy runtime helpers and context files.
+COPY ha-state /usr/local/bin/ha-state
+RUN chmod 0755 /usr/local/bin/ha-state
 COPY run.sh /
 RUN chmod a+x /run.sh
 COPY GEMINI.readonly.md /GEMINI.readonly.md

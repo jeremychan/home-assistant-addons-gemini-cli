@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+# Read current Home Assistant entity state through the Supervisor-proxied REST
+# API. This intentionally supports GET requests only.
+
+set -Eeuo pipefail
+
+API_BASE="${HA_API_URL:-http://supervisor/core/api}"
+
+usage() {
+    echo "Usage: ha-state <entity_id or friendly-name search>" >&2
+    echo "Examples:" >&2
+    echo "  ha-state light.study" >&2
+    echo "  ha-state study light" >&2
+}
+
+if [ "$#" -eq 0 ]; then
+    usage
+    exit 2
+fi
+
+if [ -z "${SUPERVISOR_TOKEN:-}" ]; then
+    echo "ha-state: SUPERVISOR_TOKEN is unavailable" >&2
+    exit 1
+fi
+
+query="$*"
+
+api_get() {
+    curl \
+        --fail \
+        --silent \
+        --show-error \
+        --connect-timeout 5 \
+        --max-time 20 \
+        --header "Authorization: Bearer ${SUPERVISOR_TOKEN}" \
+        --header "Content-Type: application/json" \
+        "${API_BASE}$1"
+}
+
+# Entity IDs contain only lowercase letters, digits, underscores, and one or
+# more dots. Try the efficient single-entity endpoint first when possible.
+if [[ "${query}" =~ ^[a-z0-9_]+([.][a-z0-9_]+)+$ ]]; then
+    if response="$(api_get "/states/${query}" 2>/dev/null)"; then
+        jq '{
+            entity_id,
+            state,
+            attributes,
+            last_changed,
+            last_updated
+        }' <<<"${response}"
+        exit 0
+    fi
+fi
+
+# Friendly-name searches use the complete states endpoint, then filter locally.
+# Limit results to keep broad searches useful in an agent conversation.
+api_get "/states" | jq --arg query "${query}" '
+    ($query | ascii_downcase) as $needle
+    | [
+        .[]
+        | select(
+            (.entity_id | ascii_downcase | contains($needle))
+            or
+            ((.attributes.friendly_name // "") | ascii_downcase | contains($needle))
+        )
+        | {
+            entity_id,
+            state,
+            attributes,
+            last_changed,
+            last_updated
+        }
+    ][:20]
+'

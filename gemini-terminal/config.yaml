@@ -1,8 +1,10 @@
 # Add-on configuration
 name: "Antigravity/Gemini Terminal"
-version: "2.0.1"
+version: "2.0.2"
 slug: "gemini_terminal"
-description: "Antigravity CLI web terminal, formerly Gemini Terminal, with ESPHome tooling for Home Assistant."
+description: >-
+  Antigravity CLI web terminal, formerly Gemini Terminal, with ESPHome tooling
+  for Home Assistant.
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
 arch:
   - "aarch64"

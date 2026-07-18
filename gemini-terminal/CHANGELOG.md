@@ -5,6 +5,17 @@ All notable changes to the Antigravity/Gemini Terminal add-on will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2026-07-18
+
+### Added
+- Added the read-only `ha-state` helper for direct current-state lookups through the Home Assistant API
+- Added managed Antigravity permission rules that allow `ha-state` without prompting and deny `/config` file writes in read-only mode
+
+### Changed
+- Start Antigravity in default mode so simple read-only questions do not create implementation plans
+- Reset persisted plan-mode preferences to default mode when the add-on starts
+- Direct Antigravity to use the Home Assistant API instead of querying the internal SQLite database
+
 ## [2.0.1] - 2026-07-18
 
 ### Changed

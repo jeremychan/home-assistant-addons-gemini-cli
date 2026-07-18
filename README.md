@@ -16,6 +16,7 @@ This community add-on is not an official Google or ESPHome product.
 - Home Assistant Ingress web terminal
 - Persistent Google sign-in, settings, projects, and conversation history
 - Read-only help mode by default
+- Pre-approved, read-only Home Assistant entity state lookups
 - Optional reviewed file editing
 - ESPHome CLI for validating, compiling, uploading, and reading device logs
 - `nano`, `curl`, `git`, `jq`, `yq`, `yamllint`, and `rg`
