@@ -1,9 +1,28 @@
 # Changelog
 
-All notable changes to the Gemini Terminal add-on will be documented in this file.
+All notable changes to the Antigravity Terminal add-on will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.0.0] - 2026-07-18
+
+### Added
+- Replaced Gemini CLI with Google's native Antigravity CLI (`agy`)
+- Added persistent Antigravity credentials, settings, projects, and conversations
+- Added an automatic one-time migration from the previous Gemini state directory
+- Added the ESPHome CLI for configuration validation, builds, OTA uploads, and logs
+- Added Antigravity plan mode to the default read-only launch path
+- Added remote-session detection so Google Sign-In prints a copyable authorization URL
+
+### Fixed
+- Removed the invalid, deprecated `build.yaml` that caused Supervisor to discard the add-on build configuration
+- Removed the Node launcher that could fail with `gemini: command not found` or BusyBox `/usr/bin/env -S` errors
+
+### Changed
+- Renamed the add-on to Antigravity Terminal while retaining its existing slug for in-place upgrades
+- Removed Gemini API key and Vertex AI options because Antigravity authenticates with Google Sign-In
+- Removed `armv7` support because Antigravity CLI only publishes 64-bit Linux builds
 
 ## [1.0.2] - 2025-11-23
 

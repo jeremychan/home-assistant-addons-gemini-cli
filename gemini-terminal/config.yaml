@@ -1,13 +1,12 @@
 # Add-on configuration
-name: "Gemini Terminal"
-version: "1.1.1"
+name: "Antigravity Terminal"
+version: "2.0.0"
 slug: "gemini_terminal"
-description: "Web-based terminal with Google Gemini AI CLI. Interact with your Home Assistant configuration using natural language, with built-in safety controls."
+description: "Web-based terminal with Google's Antigravity CLI and ESPHome tooling for working with your Home Assistant configuration."
 url: "https://github.com/jeremychan/home-assistant-addons-gemini-cli"
 arch:
   - "aarch64"
   - "amd64"
-  - "armv7"
 init: false
 # Request access to the user's main Home Assistant configuration directory.
 # The add-on will manage read-only/read-write access internally for safety.
@@ -17,17 +16,9 @@ map:
 options:
   allow_write_access: false
   auto_launch: true
-  auth_method: oauth
-  gemini_api_key: ""
-  vertex_ai_api_key: ""
-  google_cloud_project: ""
 schema:
   allow_write_access: bool
   auto_launch: bool
-  auth_method: list(oauth|api_key|vertex_ai)
-  gemini_api_key: str?
-  vertex_ai_api_key: str?
-  google_cloud_project: str?
 
 # API access for Home Assistant integration
 hassio_api: true
@@ -37,12 +28,12 @@ auth_api: true
 ingress: true
 ingress_port: 7682
 panel_icon: "mdi:console-line"
-panel_title: "Gemini"
+panel_title: "Antigravity"
 # Port configuration (optional, ingress is primary access method)
 ports:
   7682/tcp: 7682
 ports_description:
   7682/tcp: "Web terminal (not required for ingress)"
 webui: "http://[HOST]:[PORT:7682]/"
-# The working directory is set to the mounted HA config so that gemini picks it up as context
+# The working directory is the mounted Home Assistant configuration.
 working_dir: /config
