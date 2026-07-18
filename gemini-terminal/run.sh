@@ -99,8 +99,8 @@ jq \
         "write_file(/config)"
     ]' \
     '
-        .permissions = (.permissions // {})
-        | .agentMode = "default"
+        (if .agentMode == "default" then del(.agentMode) else . end)
+        | .permissions = (.permissions // {})
         | .permissions.allow = (
             (((.permissions.allow // []) - $managed_allow) + $managed_allow)
             | unique

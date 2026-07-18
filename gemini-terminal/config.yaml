@@ -1,6 +1,6 @@
 # Add-on configuration
 name: "Antigravity/Gemini Terminal"
-version: "2.0.2"
+version: "2.0.3"
 slug: "gemini_terminal"
 description: >-
   Antigravity CLI web terminal, formerly Gemini Terminal, with ESPHome tooling

@@ -6,6 +6,8 @@
 
 This add-on has moved from Gemini CLI to Google's new [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli). Existing installations can upgrade in place because the original add-on slug is unchanged. The Gemini Terminal name remains in the title to help existing users find the migrated add-on.
 
+![Antigravity CLI running in the Home Assistant terminal](gemini-terminal/screenshot.png)
+
 Run Google's [Antigravity CLI](https://github.com/google-antigravity/antigravity-cli) in a web terminal from the Home Assistant dashboard. Formerly named Gemini Terminal, the add-on opens in `/config`, includes ESPHome and common command-line tools, and keeps Antigravity authentication and session data across restarts.
 
 This community add-on is not an official Google or ESPHome product.
