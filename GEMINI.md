@@ -1,4 +1,4 @@
-# Antigravity/Gemini Terminal Add-on for Home Assistant
+# Antigravity Gemini Terminal Add-on for Home Assistant
 
 This repository contains a Home Assistant add-on that exposes Google's Antigravity CLI through `ttyd`.
 

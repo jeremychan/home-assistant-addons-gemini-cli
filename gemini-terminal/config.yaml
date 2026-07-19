@@ -1,6 +1,6 @@
 # Add-on configuration
-name: "Antigravity/Gemini Terminal"
-version: "2.0.3"
+name: "Antigravity Gemini Terminal"
+version: "2.0.4"
 slug: "gemini_terminal"
 description: >-
   Antigravity CLI web terminal, formerly Gemini Terminal, with ESPHome tooling
@@ -30,7 +30,7 @@ auth_api: true
 ingress: true
 ingress_port: 7682
 panel_icon: "mdi:console-line"
-panel_title: "Antigravity/Gemini"
+panel_title: "Antigravity Gemini"
 # Port configuration (optional, ingress is primary access method)
 ports:
   7682/tcp: 7682
